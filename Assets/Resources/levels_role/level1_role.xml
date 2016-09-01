@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program>
+  <Role Name="456312" 
+        Level ="1" 
+        HP="1000" 
+        LaunchSpeed="3"
+        Attack="200"
+        BulletLimit="35"
+        BulletCount="35"
+        Grade="0"
+        useWeapon="weapon1"
+        Gold="1000" 
+        Index="0"
+    ></Role>
+</program>

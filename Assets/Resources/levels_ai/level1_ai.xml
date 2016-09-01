@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program>
+  <ai_list Level ="1">
+    <AI  Name="456312"
+          HP="1000"
+          LaunchSpeed="3"
+          Attack="200"
+          BulletLimit="35"
+          BulletCount="35"
+          Grade="0"
+          useWeapon="weapon1"
+          next_create_time ="3" 
+          launch_offset ="1"
+          Index="0"
+    />
+    <AI   Name="456312"
+          HP="1000"
+          LaunchSpeed="3"
+          Attack="200"
+          BulletLimit="35"
+          BulletCount="35"
+          Grade="0" 
+          sum ="2" 
+          useWeapon="weapon1"
+          next_create_time ="5"
+          launch_offset ="1"
+          Index="1"
+    />
+    <AI   Name="456312"
+          HP="1000"
+          LaunchSpeed="3"
+          Attack="200"
+          BulletLimit="35"
+          BulletCount="35"
+          Grade="0"
+          useWeapon="weapon1"
+          next_create_time ="4"
+          launch_offset ="1"
+          Index="2"
+    />
+    <AI   Name="456312"
+          HP="1000"
+          LaunchSpeed="3"
+          Attack="200"
+          BulletLimit="35"
+          BulletCount="35"
+          Grade="0"
+          useWeapon="weapon1"
+          next_create_time ="10"
+          launch_offset ="0.5"
+          Index="3"
+    />
+    
+  </ai_list>
+  
+</program>
