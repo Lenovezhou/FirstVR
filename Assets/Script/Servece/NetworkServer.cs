@@ -49,17 +49,25 @@ public class NetworkServer : MonoBehaviour {
 	
     public virtual void OnAwake()
     {
+		// 创建socket实例
         socReceive = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(MsgCenter.Instance.Host), MsgCenter.Instance.Port);
+       // 创建IPEndPoint实例
+		IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(MsgCenter.Instance.Host), MsgCenter.Instance.Port);
         socReceive.Bind(ipEndPoint);
-        socReceive.SendBufferSize = PACK_SIZE;
-        _bts_read = new byte[PACK_SIZE];
+        // 发送的数据长度
+		socReceive.SendBufferSize = PACK_SIZE;
+       // 根据自定义的数据包长度来创建读取和写入的Byte[]数组：
+		_bts_read = new byte[PACK_SIZE];
         _bts_write = new byte[PACK_SIZE];
+		// 客户端socket实例
 udpClient = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);  //  测试
+		// 测试用的Endpoint实例
 send_end_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12801);
         udpClient.SendBufferSize = PACK_SIZE * 2;
         //udpClient.Bind(new IPEndPoint(IPAddress.Parse("192.1.1.5"),12801));
+		// 接收端的IpEndPoint实例
         receiveIP = new IPEndPoint(IPAddress.Any, 0);
+		// 打印接收端的地址：
         Debug.Log((receiveIP as IPEndPoint).Address.ToString());
         receiveDatas = new List<string>();
         isRuntime = true;
@@ -104,6 +112,7 @@ send_end_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12801);
         int x, y;
         while (isRuntime)
         {
+			// 将数据报接收到数据缓冲区并存储终结点
             n = socReceive.ReceiveFrom(_bts_read, ref receiveIP);
             
             if (n > 0 && n <= PACK_SIZE)
@@ -144,14 +153,18 @@ send_end_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12801);
     {
         if (udpClient != null)
         {
+			// 将场景内的所有物体都加入List
             List<RootObject> rList = new List<RootObject>();
             foreach (SenceGameObject obj_data in senceObjs.Values)
             {
                 rList.Add(obj_data.SenceObject);
             }
+			// 利用JsonConvert的SerializeObject方法将数据打包+包头和包尾；
             string str = PACK_HIDE + JsonConvert.SerializeObject(rList) + PACK_TAIL;
+			//将Json包转换成UTF8格式
             byte[] bt = Encoding.UTF8.GetBytes(str);
             Debug.Log(bt.Length + " : " + str);
+			// 如果数据长度不足
             if (bt.Length <= PACK_SIZE)
             {
                 bt.CopyTo(_bts_write, 0);
@@ -165,12 +178,16 @@ send_end_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12801);
                 {
                     for (int i = 0; i < bt.Length / PACK_SIZE; i++)
                     {
+						// 1.使用System.arrycopy方法：System.arrycopy
+						// (源数组 ，从第几个下标开始被复制 ，目标数组 ，从第几个下标开始复制 ，
+						// 要复制的元素的数目（长度）)   如：System.arrycopy(a,0,b,0,a.length)
                         Array.Copy(bt, i * PACK_SIZE, _bts_write, 0, PACK_SIZE);
                         udpClient.SendTo(_bts_write, send_end_point);
                     }
                 }
                 else 
                 {
+					// Mathf.RoundToInt：四舍五入到整数
                     int m = Mathf.RoundToInt(bt.Length / PACK_SIZE) + 1;
                     for (int i = 0; i < m; i++)
                     {
